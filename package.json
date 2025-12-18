@@ -4,13 +4,15 @@
   "description": "Fetch active order books from various services every second.",
   "main": "index.js",
   "scripts": {
-    "start": "tsx ./src/index.ts"
+    "start": "tsx ./src/index.ts",
+    "build": "esbuild ./src/index.ts --bundle --outfile=dist/OrderBookManager.js --platform=node --format=cjs --minify"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^24.10.2",
+    "esbuild": "^0.27.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
