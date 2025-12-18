@@ -176,7 +176,7 @@ const main = async () => {
     console.log(`Took ${Date.now() - startTime}ms.\n\n`);
 
     // Throttle request frequency to avoid overwhelming the upstream API.
-    await GeneralUtils.sleep(1000);
+    await GeneralUtils.sleep(5000);
   }
 };
 
