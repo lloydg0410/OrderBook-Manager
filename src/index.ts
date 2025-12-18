@@ -1,8 +1,10 @@
 import { UniswapXAPI } from "./services/apis/UniswapXAPI";
+import { VeloraAPI } from "./services/apis/VeloraAPI";
 import { GeneralUtils } from "./utils/general.util";
 import {
   uniswapXDuchOrderLogger,
   uniswapXLimitOrderLogger,
+  veloraOrderLogger,
 } from "./utils/logger.util";
 
 /**
@@ -65,6 +67,31 @@ const fetchUniswapXLimitOrders = async () => {
 };
 
 /**
+ * Fetches Velora orders from the external API and logs the result.
+ *
+ * Behavior:
+ *  - Calls `VeloraAPI.getVeloraOrders()` to retrieve orders.
+ *  - Logs the complete JSON response to the `veloraOrderLogger`.
+ *  - Outputs a brief performance summary (order count and latency) to stdout.
+ */
+const fetchVeloraOrders = async () => {
+  const startTime = Date.now();
+
+  // Retrieve Limit orders (true indicates limit orders).
+  const orders = await VeloraAPI.getVeloraOrders();
+
+  // Persist the full order payload for later analysis/debugging.
+  veloraOrderLogger.info(`${JSON.stringify(orders, null, 2)}\n\n`);
+
+  // Console-level summary for quick runtime inspection.
+  console.log(
+    `Fetch ${orders.length} Velora Orders, Took ${
+      Date.now() - startTime
+    }ms`
+  );
+};
+
+/**
  * Main polling loop.
  *
  * Behavior:
@@ -87,6 +114,7 @@ const main = async () => {
     await Promise.allSettled([
       fetchUniswapXDuchOrders(),
       fetchUniswapXLimitOrders(),
+      fetchVeloraOrders()
     ]);
 
     // Log total cycle duration for both operations.

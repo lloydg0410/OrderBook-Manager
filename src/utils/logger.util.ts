@@ -99,3 +99,9 @@ export const uniswapXDuchOrderLogger = LoggerUtils.createLogger("uniswapx-duch-o
  * Use this logger for recording limit order creation, updates, and execution details.
  */
 export const uniswapXLimitOrderLogger = LoggerUtils.createLogger("uniswapx-limit-order.log");
+
+/**
+ * Logger dedicated to Velora order related events.
+ * Use this logger for recording limit order creation, updates, and execution details.
+ */
+export const veloraOrderLogger = LoggerUtils.createLogger("velora-order.log");
