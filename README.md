@@ -1,2 +1,2 @@
-# Simple-Typescript-Template
-A simple typescript project template.
+# OrderBook Manager
+Fetch active order books from various services every second.
