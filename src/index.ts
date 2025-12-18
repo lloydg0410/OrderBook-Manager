@@ -1,7 +1,10 @@
+import { OneInchAPI } from "./services/apis/OneInchAPI";
 import { UniswapXAPI } from "./services/apis/UniswapXAPI";
 import { VeloraAPI } from "./services/apis/VeloraAPI";
 import { GeneralUtils } from "./utils/general.util";
 import {
+  oneInchFusionOrderLogger,
+  oneInchLimitOrderLogger,
   uniswapXDuchOrderLogger,
   uniswapXLimitOrderLogger,
   veloraOrderLogger,
@@ -92,6 +95,56 @@ const fetchVeloraOrders = async () => {
 };
 
 /**
+ * Fetches OneInch Fusion orders from the external API and logs the result.
+ *
+ * Behavior:
+ *  - Calls `OneInchAPI.getFusionActiveOrders()` to retrieve orders.
+ *  - Logs the complete JSON response to the `oneInchFusionOrderLogger`.
+ *  - Outputs a brief performance summary (order count and latency) to stdout.
+ */
+const fetchOneInchFusionOrders = async () => {
+  const startTime = Date.now();
+
+  // Retrieve Limit orders (true indicates limit orders).
+  const orders = await OneInchAPI.getFusionActiveOrders();
+
+  // Persist the full order payload for later analysis/debugging.
+  oneInchFusionOrderLogger.info(`${JSON.stringify(orders, null, 2)}\n\n`);
+
+  // Console-level summary for quick runtime inspection.
+  console.log(
+    `Fetch ${orders.length} OneInch Fusion Orders, Took ${
+      Date.now() - startTime
+    }ms`
+  );
+};
+
+/**
+ * Fetches OneInch Fusion orders from the external API and logs the result.
+ *
+ * Behavior:
+ *  - Calls `OneInchAPI.getAllLimitOrders()` to retrieve orders.
+ *  - Logs the complete JSON response to the `oneInchLimitOrderLogger`.
+ *  - Outputs a brief performance summary (order count and latency) to stdout.
+ */
+const fetchOneInchLimitOrders = async () => {
+  const startTime = Date.now();
+
+  // Retrieve Limit orders (true indicates limit orders).
+  const orders = await OneInchAPI.getAllLimitOrders();
+
+  // Persist the full order payload for later analysis/debugging.
+  oneInchLimitOrderLogger.info(`${JSON.stringify(orders, null, 2)}\n\n`);
+
+  // Console-level summary for quick runtime inspection.
+  console.log(
+    `Fetch ${orders.length} OneInch Limit Orders, Took ${
+      Date.now() - startTime
+    }ms`
+  );
+};
+
+/**
  * Main polling loop.
  *
  * Behavior:
@@ -114,7 +167,9 @@ const main = async () => {
     await Promise.allSettled([
       fetchUniswapXDuchOrders(),
       fetchUniswapXLimitOrders(),
-      fetchVeloraOrders()
+      fetchVeloraOrders(),
+      fetchOneInchFusionOrders(),
+      fetchOneInchLimitOrders()
     ]);
 
     // Log total cycle duration for both operations.

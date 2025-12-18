@@ -105,3 +105,15 @@ export const uniswapXLimitOrderLogger = LoggerUtils.createLogger("uniswapx-limit
  * Use this logger for recording limit order creation, updates, and execution details.
  */
 export const veloraOrderLogger = LoggerUtils.createLogger("velora-order.log");
+
+/**
+ * Logger dedicated to OneInch Fusion order related events.
+ * Use this logger for recording fusion order creation, updates, and execution details.
+ */
+export const oneInchFusionOrderLogger = LoggerUtils.createLogger("one-inch-fusion-order.log");
+
+/**
+ * Logger dedicated to OneInch Limit order related events.
+ * Use this logger for recording limit order creation, updates, and execution details.
+ */
+export const oneInchLimitOrderLogger = LoggerUtils.createLogger("one-inch-limit-order.log");
